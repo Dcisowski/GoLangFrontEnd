@@ -7,12 +7,13 @@ function Payment() {
     const [total, setTotal] = useState(0);
     const cartId = localStorage.getItem('cart_id')
     const navigate = useNavigate();  // For redirection
+    const backendUrl = "http://localhost:8080";
 
     useEffect(() => {
 
         // Fetch the cart and its total from the backend
         if (cartId) {
-            fetch(`http://localhost:8080/carts/${cartId}`)
+            fetch(`${backendUrl}/api/carts/${cartId}`)
                 .then(response => response.json())
                 .then(data => {
                     setTotal(data.total);
@@ -22,7 +23,7 @@ function Payment() {
     }, []);
 
     const clearCart = () => {
-        fetch(`http://localhost:8080/carts/${localStorage.getItem('cart_id')}`, {
+        fetch(`${backendUrl}/api/carts/${localStorage.getItem('cart_id')}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: {}, // Send cart_id if exists
@@ -43,7 +44,7 @@ function Payment() {
             payment_method: paymentMethod,
         };
 
-        fetch('http://localhost:8080/payments', {
+        fetch(`${backendUrl}/api/payments`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(paymentData),
@@ -52,7 +53,7 @@ function Payment() {
             .then(data => {
                 console.log('Payment successful:', data);
                 clearCart(); // Clear the cart after payment
-                navigate('/payment-success');
+                navigate(`/payment-success`);
             })
             .catch(error => console.error('Error processing payment:', error));
     };

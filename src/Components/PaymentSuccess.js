@@ -3,9 +3,9 @@ import React from 'react';
 import {useNavigate} from "react-router-dom";
 
 function PaymentSuccess() {
-    const navigate = useNavigate();  // For redirection
+    const navigate = useNavigate();
     const returnToSourcePage = () => {
-        navigate("/")
+        navigate(`/`)
     }
     return (
         <div>

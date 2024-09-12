@@ -6,6 +6,7 @@ function Cart() {
     const [cart, setCart] = useState(null);
     const [total, setTotal] = useState(0);
     const navigate = useNavigate();
+    const backendUrl = "http://localhost:8080";
 
     useEffect(() => {
         // Get the cart ID from localStorage
@@ -13,7 +14,7 @@ function Cart() {
 
         // Fetch the cart and its total from the backend
         if (cartId) {
-            fetch(`http://localhost:8080/carts/${cartId}`)
+            fetch(`${backendUrl}/api/carts/${cartId}`)
                 .then(response => response.json())
                 .then(data => {
                     setCart(data.cart);
@@ -28,7 +29,7 @@ function Cart() {
     }
 
     const clearCart = () => {
-        fetch(`http://localhost:8080/carts/${localStorage.getItem('cart_id')}`, {
+        fetch(`${backendUrl}/api/carts/${localStorage.getItem('cart_id')}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: {}, // Send cart_id if exists
@@ -44,7 +45,7 @@ function Cart() {
     };
 
     const goToPayment = () => {
-        navigate('/payment'); // Programmatically navigate to the Cart page
+        navigate(`payment`, { replace: true }); // Programmatically navigate to the Cart page
     };
 
     return (
